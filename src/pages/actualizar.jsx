@@ -1,6 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { FuncionesContext } from "../context/funcionesContext";
+import Swal from 'sweetalert2';
 
 export function EditarProducto() {
   const { id } = useParams();
@@ -18,7 +19,9 @@ export function EditarProducto() {
   });
 
   useEffect(() => {
-    (async () => {await traerProduct(id);})();
+    (async () => {
+      await traerProduct(id);
+    })();
   }, [id]);
 
   useEffect(() => {
@@ -43,8 +46,7 @@ export function EditarProducto() {
     }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     const datosActualizados = {
       id,
       detalles: {
@@ -59,92 +61,99 @@ export function EditarProducto() {
     };
 
     await editarProduct(id, datosActualizados);
+
+    Swal.fire({
+      title: 'Modificado',
+      text: 'El producto fue actualizado con éxito.',
+      icon: 'success',
+      background: '#1f2937',
+      color: '#fff',
+      confirmButtonColor: '#16a34a',
+      confirmButtonText: 'OK',
+      customClass: {
+        popup: 'rounded-2xl shadow-md',
+        title: 'text-green-500 text-xl font-bold',
+        confirmButton: 'px-5 py-2 rounded-lg font-medium'
+      }
+    });
+
     navigate(`/producto/${id}`);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black to-gray-950 text-white flex items-center justify-center px-4 py-16">
-  <form
-    onSubmit={handleSubmit}
-    className="w-full max-w-3xl bg-gray-900 rounded-3xl p-10 space-y-8 shadow-2xl border border-gray-800"
-  >
-    <h2 className="text-4xl font-extrabold text-center text-red-600">Editar GPU</h2>
-
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <input
-        name="modelo"
-        type="text"
-        value={formData.modelo}
-        onChange={handleChange}
-        placeholder="Modelo"
-        required
-        className="bg-gray-800 text-white px-5 py-3 rounded-xl placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600 transition"
-      />
-      <input
-        name="fabricante"
-        type="text"
-        value={formData.fabricante}
-        onChange={handleChange}
-        placeholder="Fabricante"
-        required
-        className="bg-gray-800 text-white px-5 py-3 rounded-xl placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600 transition"
-      />
-      <input
-        name="fecha_lanzamiento"
-        type="date"
-        value={formData.fecha_lanzamiento}
-        onChange={handleChange}
-        required
-        className="bg-gray-800 text-white px-5 py-3 rounded-xl placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600 transition"
-      />
-      <input
-        name="memoria"
-        type="text"
-        value={formData.memoria}
-        onChange={handleChange}
-        placeholder="Memoria"
-        required
-        className="bg-gray-800 text-white px-5 py-3 rounded-xl placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600 transition"
-      />
-      <input
-        name="nucleos_cuda"
-        type="number"
-        value={formData.nucleos_cuda}
-        onChange={handleChange}
-        placeholder="Núcleos CUDA"
-        required
-        className="bg-gray-800 text-white px-5 py-3 rounded-xl placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600 transition"
-      />
-      <input
-        name="velocidad_reloj"
-        type="text"
-        value={formData.velocidad_reloj}
-        onChange={handleChange}
-        placeholder="Velocidad de reloj"
-        required
-        className="bg-gray-800 text-white px-5 py-3 rounded-xl placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600 transition"
-      />
-      <input
-        name="imagen"
-        type="url"
-        value={formData.imagen}
-        onChange={handleChange}
-        placeholder="URL de la imagen"
-        required
-        className="bg-gray-800 text-white px-5 py-3 rounded-xl placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600 transition md:col-span-2"
-      />
-    </div>
-
-    <div className="text-center pt-4">
-      <button
-        type="submit"
-        className="bg-red-600 hover:bg-red-700 px-8 py-3 text-white rounded-2xl font-bold shadow-lg transition-all"
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-gray-950 text-white flex items-center justify-center px-4 py-20">
+      <form
+        onSubmit={(e) => e.preventDefault()}
+        className="w-full max-w-3xl bg-gray-900 rounded-3xl p-10 space-y-10 shadow-2xl border border-gray-800"
       >
-        Guardar Cambios
-      </button>
-    </div>
-  </form>
-</div>
+        <h2 className="text-4xl md:text-5xl font-extrabold text-center text-red-600">
+          Editar GPU
+        </h2>
 
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {[
+            { name: "modelo", placeholder: "Modelo" },
+            { name: "fabricante", placeholder: "Fabricante" },
+            { name: "fecha_lanzamiento", placeholder: "Fecha de lanzamiento", type: "date" },
+            { name: "memoria", placeholder: "Memoria" },
+            { name: "nucleos_cuda", placeholder: "Núcleos CUDA", type: "number" },
+            { name: "velocidad_reloj", placeholder: "Velocidad de reloj" },
+          ].map(({ name, placeholder, type = "text" }) => (
+            <input
+              key={name}
+              name={name}
+              type={type}
+              value={formData[name]}
+              onChange={handleChange}
+              placeholder={placeholder}
+              required
+              className="bg-gray-800 text-white px-5 py-3 rounded-xl placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600 transition"
+            />
+          ))}
+
+          <input
+            name="imagen"
+            type="url"
+            value={formData.imagen}
+            onChange={handleChange}
+            placeholder="URL de la imagen"
+            required
+            className="bg-gray-800 text-white px-5 py-3 rounded-xl placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600 transition md:col-span-2"
+          />
+        </div>
+
+        <div className="text-center">
+          <button
+            onClick={() => {
+              Swal.fire({
+                title: '¿Guardar cambios?',
+                text: 'Estás por modificar los datos del producto.',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#16a34a', // verde-600
+                cancelButtonColor: '#1e40af',  // azul oscuro
+                confirmButtonText: 'Sí, modificar',
+                cancelButtonText: 'Cancelar',
+                background: '#1f2937',
+                color: '#fff',
+                customClass: {
+                  popup: 'rounded-2xl shadow-lg',
+                  title: 'text-yellow-400 text-2xl font-bold',
+                  confirmButton: 'px-6 py-2 font-semibold rounded-md',
+                  cancelButton: 'px-6 py-2 font-semibold rounded-md'
+                }
+              }).then(async (result) => {
+                if (result.isConfirmed) {
+                  await handleSubmit();
+                }
+              });
+            }}
+            className="bg-red-600 hover:bg-red-700 px-8 py-3 text-white rounded-2xl font-bold shadow-lg transition-all"
+          >
+            Guardar Cambios
+          </button>
+        </div>
+      </form>
+    </div>
   );
 }

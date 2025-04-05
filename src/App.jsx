@@ -1,6 +1,7 @@
 import {Ubicaciones} from "./routes/routes"
 import { Menuu } from "./components/menu"
 import { Footer } from "./components/footer"
+import { ToastContainer } from 'react-toastify';
 function App() {
 
 
@@ -9,6 +10,7 @@ function App() {
    <Menuu/>
    <Ubicaciones></Ubicaciones>
    <Footer/>
+   <ToastContainer />
    </> 
   )
 }

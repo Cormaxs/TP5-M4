@@ -1,11 +1,14 @@
 import { useContext, useEffect } from "react";
 import { FuncionesContext } from "../context/funcionesContext";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2';
+
 
 
 export function Producto() {
   const { traerProduct,eliminarProduct, producto } = useContext(FuncionesContext);
   const { id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     (async () => {
@@ -71,12 +74,51 @@ export function Producto() {
 
             {/* Botones */}
             <div className="flex flex-col sm:flex-row gap-4 pt-6">
-              <button
-                onClick={async () => await eliminarProduct(id)}
-                className="bg-red-600 hover:bg-red-700 transition-colors text-white font-semibold px-6 py-3 rounded-xl shadow-lg"
-              >
-                Eliminar
-              </button>
+            <button
+  onClick={() => {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: '¡Esta acción no se puede deshacer!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#b91c1c', // rojo oscuro (tailwind: red-700)
+      cancelButtonColor: '#1e40af',  // azul oscuro (tailwind: blue-800)
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar',
+      background: '#1f2937', // gris-800
+      color: '#fff',
+      customClass: {
+        popup: 'rounded-2xl shadow-lg',
+        title: 'text-red-500 text-2xl font-bold',
+        confirmButton: 'px-6 py-2 font-semibold rounded-md',
+        cancelButton: 'px-6 py-2 font-semibold rounded-md'
+      }
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await eliminarProduct(id);
+        Swal.fire({
+          title: 'Eliminado',
+          text: 'El producto fue eliminado con éxito.',
+          icon: 'success',
+          background: '#1f2937',
+          color: '#fff',
+          confirmButtonColor: '#16a34a', // verde-600
+          confirmButtonText: 'OK',
+          customClass: {
+            popup: 'rounded-2xl shadow-md',
+            title: 'text-green-500 text-xl font-bold',
+            confirmButton: 'px-5 py-2 rounded-lg font-medium'
+          }
+        });
+        navigate('/productos');
+      }
+    });
+  }}
+  className="bg-red-600 hover:bg-red-700 transition-all text-white font-bold px-8 py-3 rounded-2xl shadow-lg"
+>
+  Eliminar Producto
+</button>
+
 
               
                 <button className="bg-gray-700 hover:bg-gray-600 transition-colors text-white font-semibold px-6 py-3 rounded-xl shadow-lg">
