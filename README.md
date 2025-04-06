@@ -45,6 +45,7 @@ npm install
 ---
 
  ## 🧱 Estructura del proyecto
+  ```bash
  src/
 ├── api                       # carpeta llamado al backend
 │   ├── api.js
@@ -64,7 +65,7 @@ npm install
 ├── routes/
 │   └── routes.jsx            # Definición de rutas
 └── App.jsx                   # Componente principal
-
+ ```
 
 Archivo de funciones API (uso con Axios)
 
