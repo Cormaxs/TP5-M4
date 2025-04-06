@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 
 
 export function Producto() {
-  const { traerProduct,eliminarProduct, producto } = useContext(FuncionesContext);
+  const { traerProduct,eliminarProduct, producto, Cargando, loading } = useContext(FuncionesContext);
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -17,10 +17,10 @@ export function Producto() {
   }, [id]);
 
 
-  if (!producto) return <div className="text-center py-10 text-white">Cargando producto...</div>;
-  if (!producto.detalles) return <div className="text-center py-10 text-white">Producto sin detalles</div>;
-
+  if(loading){return Cargando() }
+   if(producto.detalles){
   return (
+    
      <section className="py-25 min-h-screen bg-gradient-to-b from-black to-gray-900 px-4">
       <div className="max-w-5xl mx-auto bg-gray-900 text-white rounded-3xl shadow-2xl overflow-hidden transition-transform duration-300 hover:scale-[1.01]">
 
@@ -30,7 +30,7 @@ export function Producto() {
             <img
               src={producto.imagen}
               alt={`Imagen de ${producto.detalles.modelo}`}
-              className="w-full h-full object-cover md:rounded-l-3xl rounded-t-3xl md:rounded-t-none"
+              className="w-full h-full object-contain bg-black/90 md:rounded-l-3xl rounded-t-3xl md:rounded-t-none"
             />
           </div>
 
@@ -131,4 +131,5 @@ export function Producto() {
       </div>
     </section>
   );
+}
 }

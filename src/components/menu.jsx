@@ -1,10 +1,16 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 
 export function Menuu() {
   const [menuAbierto, setMenuAbierto] = useState(false);
+  const location = useLocation(); // para obtener la ruta actual
+
+  // Función para determinar si una ruta está activa
+  const isActive = (path) => {
+    return location.pathname === path;
+  };
 
   return (
     <nav className="fixed top-0 w-full z-50 backdrop-blur-sm bg-white/80 shadow-md transition-all duration-300">
@@ -26,13 +32,28 @@ export function Menuu() {
           {/* Menú desktop */}
           <ol className="hidden md:flex space-x-8 text-black font-medium">
             <li>
-              <Link to="/" className="hover:text-red-600 transition-colors">Inicio</Link>
+              <Link 
+                to="/" 
+                className={`hover:text-red-600 transition-colors ${isActive("/") ? "text-red-600 font-semibold" : ""}`}
+              >
+                Inicio
+              </Link>
             </li>
             <li>
-              <Link to="/productos" className="hover:text-red-600 transition-colors">Productos</Link>
+              <Link 
+                to="/productos" 
+                className={`hover:text-red-600 transition-colors ${isActive("/productos") ? "text-red-600 font-semibold" : ""}`}
+              >
+                Productos
+              </Link>
             </li>
             <li>
-              <Link to="/crearproduct" className="hover:text-red-600 transition-colors">Agregar producto</Link>
+              <Link 
+                to="/crearproduct" 
+                className={`hover:text-red-600 transition-colors ${isActive("/crearproduct") ? "text-red-600 font-semibold" : ""}`}
+              >
+                Agregar producto
+              </Link>
             </li>
           </ol>
         </div>
@@ -51,13 +72,31 @@ export function Menuu() {
           >
             <ol className="flex flex-col space-y-4 p-4 text-black font-medium">
               <li>
-                <Link to="/" className="hover:text-red-600" onClick={() => setMenuAbierto(false)}>Inicio</Link>
+                <Link 
+                  to="/" 
+                  className={`hover:text-red-600 ${isActive("/") ? "text-red-600 font-semibold" : ""}`} 
+                  onClick={() => setMenuAbierto(false)}
+                >
+                  Inicio
+                </Link>
               </li>
               <li>
-                <Link to="/productos" className="hover:text-red-600" onClick={() => setMenuAbierto(false)}>Productos</Link>
+                <Link 
+                  to="/productos" 
+                  className={`hover:text-red-600 ${isActive("/productos") ? "text-red-600 font-semibold" : ""}`} 
+                  onClick={() => setMenuAbierto(false)}
+                >
+                  Productos
+                </Link>
               </li>
               <li>
-                <Link to="/crearproduct" className="hover:text-red-600" onClick={() => setMenuAbierto(false)}>Agregar producto</Link>
+                <Link 
+                  to="/crearproduct" 
+                  className={`hover:text-red-600 ${isActive("/crearproduct") ? "text-red-600 font-semibold" : ""}`} 
+                  onClick={() => setMenuAbierto(false)}
+                >
+                  Agregar producto
+                </Link>
               </li>
             </ol>
           </motion.div>

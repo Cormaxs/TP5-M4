@@ -1,22 +1,35 @@
 import { useContext, useEffect } from "react";
 import { FuncionesContext } from "../context/funcionesContext";
-import { Producto } from "../pages/producto";
 import { Link } from "react-router-dom";
 
-
 export function Cards() {
-  const { traerProductos, productos } = useContext(FuncionesContext);
+  const { traerProductos, productos, Cargando, loading } = useContext(FuncionesContext);
 
   useEffect(() => {
-    (async () => {await traerProductos();})();
-  }, []); 
+    (async () => {
+      await traerProductos();
+    })();
+  }, []);
 
-  // Protección contra accesos a propiedades undefined
-
+  if (loading) return <Cargando />;
+  
+  // Caso cuando no hay productos
+  if (!productos || productos.length === 0) {
+    return (
+      <section className="min-h-screen bg-gradient-to-b from-black to-gray-900 py-12 px-4">
+        <div className="max-w-7xl mx-auto text-center">
+          <h2 className="text-4xl font-bold text-white mb-6">Nuestros Productos</h2>
+          <div className="bg-gray-800 rounded-2xl p-8 max-w-2xl mx-auto">
+            <p className="text-2xl text-gray-300">No hay productos disponibles</p>
+            <p className="text-gray-400 mt-2">Pronto agregaremos nuevos productos a nuestro catálogo</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
-    <>
-      <section className="min-h-screen bg-gradient-to-b from-black to-gray-900 py-12 px-4">
+    <section className="min-h-screen bg-black px-4 mt-5">
       <div className="max-w-7xl mx-auto">
         <h2 className="text-4xl font-bold text-center text-white mb-10">
           Nuestros Productos
@@ -33,7 +46,7 @@ export function Cards() {
                 <img
                   src={product.imagen}
                   alt={`Imagen de ${product.detalles.modelo}`}
-                  className="w-full h-48 object-cover"
+                  className="w-full h-48 object-contain bg-black/70 "
                 />
 
                 <div className="p-5 space-y-2">
@@ -69,7 +82,5 @@ export function Cards() {
         </div>
       </div>
     </section>
-
-    </>
   );
 }

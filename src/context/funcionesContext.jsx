@@ -16,53 +16,62 @@ export function FuncionesProvider({ children }) {
 
   const crearProduct = async (nuevoProducto) => {
     try {
+      setLoading(true)
       const carga = await API_POST(nuevoProducto);
-      console.log("Producto creado:", carga);
       return carga;
     } catch (err) {
       console.error("Error al crear producto:", err);
       throw err;
+    }finally{
+      setLoading(false)
     }
   };
 
   const editarProduct = async (id, datosActualizados) => {
     try {
+      setLoading(true)
       const editar = await API_PUT_ID(id, datosActualizados);
       console.log("Producto editado:", editar);
       return editar;
     } catch (err) {
       console.error(`Error al editar el producto con ID ${id}:`, err);
       throw err;
+    }finally{
+      setLoading(false)
     }
   };
 
   const eliminarProduct = async (id) => {
     try {
+      setLoading(true)
       const eliminar = await API_DELETE_ID(id);
       console.log("Producto eliminado:", eliminar);
       return eliminar;
     } catch (err) {
       console.error(`Error al eliminar el producto con ID ${id}:`, err);
       throw err;
+    }finally{
+      setLoading(false)
     }
   };
 
   const traerProduct = async (id) => {
     try {
+      setLoading(true)
       const product = await API_GET_ID(id);
       setProducto(product);
       return product;
     } catch (err) {
       console.error(`Error al obtener producto con ID ${id}:`, err);
       throw err;
+    }finally{
+      setLoading(false)
     }
   };
 
   const traerProductos = async () => {
     try {
       setLoading(true);
-      console.log("Cargando productos...");
-
       const data = await API_GET();
       setProductos(data);
       return data;
@@ -72,9 +81,17 @@ export function FuncionesProvider({ children }) {
       throw err;
     } finally {
       setLoading(false);
-      console.log("Fin de la carga");
     }
   };
+
+  const Cargando = ()=>{
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-black">
+        <div className="w-16 h-16 border-4 border-red-600 border-t-transparent rounded-full animate-spin shadow-xl"></div>
+      </div>
+    );
+  }
+
 
   return (
     <FuncionesContext.Provider
@@ -84,6 +101,7 @@ export function FuncionesProvider({ children }) {
         eliminarProduct,
         traerProduct,
         traerProductos,
+        Cargando,
         productos,
         loading,
         producto,
