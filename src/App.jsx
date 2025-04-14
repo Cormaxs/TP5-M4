@@ -8,7 +8,7 @@ function App() {
   return (
    <>
    <Menuu/>
-   <Ubicaciones></Ubicaciones>
+   <Ubicaciones/>
    <Footer/>
    <ToastContainer />
    </> 

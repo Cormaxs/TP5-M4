@@ -81,11 +81,11 @@ export function Producto() {
       text: '¡Esta acción no se puede deshacer!',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#b91c1c', // rojo oscuro (tailwind: red-700)
-      cancelButtonColor: '#1e40af',  // azul oscuro (tailwind: blue-800)
+      confirmButtonColor: '#b91c1c', 
+      cancelButtonColor: '#1e40af',  
       confirmButtonText: 'Sí, eliminar',
       cancelButtonText: 'Cancelar',
-      background: '#1f2937', // gris-800
+      background: '#1f2937', 
       color: '#fff',
       customClass: {
         popup: 'rounded-2xl shadow-lg',
@@ -102,7 +102,7 @@ export function Producto() {
           icon: 'success',
           background: '#1f2937',
           color: '#fff',
-          confirmButtonColor: '#16a34a', // verde-600
+          confirmButtonColor: '#16a34a', 
           confirmButtonText: 'OK',
           customClass: {
             popup: 'rounded-2xl shadow-md',

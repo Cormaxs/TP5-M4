@@ -21,8 +21,6 @@ export function Ubicaciones(){
 
             <Route path="/actualizarproduct/:id" element={<EditarProducto/>}/>
 
-            <Route path="/delete/:id" element={"delete"}/>
-
             <Route path="*" element={<NotFound/>}/>
         </Routes></>
     )

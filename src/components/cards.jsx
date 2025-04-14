@@ -14,7 +14,7 @@ export function Cards() {
   if (loading) return <Cargando />;
   
   // Caso cuando no hay productos
-  if (!productos || productos.length === 0) {
+  if (!productos) {
     return (
       <section className="min-h-screen bg-gradient-to-b from-black to-gray-900 py-12 px-4">
         <div className="max-w-7xl mx-auto text-center">
@@ -59,19 +59,19 @@ export function Cards() {
 
                   <div className="text-sm text-gray-400 space-y-1">
                     <p>
-                      <span className="text-white font-semibold">Lanzamiento:</span>{" "}
+                      <span className="text-white font-semibold">Lanzamiento: </span>
                       {product.detalles.fecha_lanzamiento}
                     </p>
                     <p>
-                      <span className="text-white font-semibold">Memoria:</span>{" "}
+                      <span className="text-white font-semibold">Memoria: </span>
                       {product.detalles.memoria}
                     </p>
                     <p>
-                      <span className="text-white font-semibold">Núcleos CUDA:</span>{" "}
+                      <span className="text-white font-semibold">Núcleos CUDA: </span>
                       {product.detalles.nucleos_cuda}
                     </p>
                     <p>
-                      <span className="text-white font-semibold">Velocidad:</span>{" "}
+                      <span className="text-white font-semibold">Velocidad: </span>
                       {product.detalles.velocidad_reloj}
                     </p>
                   </div>

@@ -9,9 +9,10 @@ export function CrearProduct() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    //lee todos los campos del formulario y loc convierte en un objeto.
     const formValues = Object.fromEntries(new FormData(e.target).entries());
 
+  //ordeno el objeto en cada campo
     const nuevoProducto = {
       detalles: {
         modelo: formValues.modelo,
@@ -25,7 +26,7 @@ export function CrearProduct() {
     };
 
     try {
-      const resultado = await crearProduct(nuevoProducto);
+      await crearProduct(nuevoProducto);
       toast.success(`Producto ${nuevoProducto.detalles.modelo} creado correctamente`);
       navigate("/productos");
     } catch (error) {

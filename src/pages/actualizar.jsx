@@ -7,7 +7,6 @@ import Swal from 'sweetalert2';
 export function EditarProducto() {
   const { id } = useParams();
 
-  //redireccionar luego de editar
   const navigate = useNavigate();
 
   const { producto, traerProduct, editarProduct, Cargando, loading } = useContext(FuncionesContext);
